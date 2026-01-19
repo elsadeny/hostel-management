@@ -88,6 +88,36 @@ fix_permissions() {
 }
 
 #############################################################################
+# Function: Setup SSL
+#############################################################################
+setup_ssl() {
+    print_section "Setting up SSL with Let's Encrypt"
+    
+    # Install Certbot
+    print_info "Installing Certbot..."
+    apt install -y certbot python3-certbot-nginx
+    
+    # Get Domain
+    SERVER_IP=$(hostname -I | awk '{print $1}')
+    read -p "Enter domain name for SSL (e.g., example.com): " SSL_DOMAIN
+    
+    if [ -z "$SSL_DOMAIN" ] || [ "$SSL_DOMAIN" == "$SERVER_IP" ]; then
+        print_error "Valid domain name required for SSL. IP addresses are not supported."
+        return
+    fi
+    
+    # Run Certbot
+    print_info "Requesting certificate for $SSL_DOMAIN..."
+    certbot --nginx -d "$SSL_DOMAIN" --non-interactive --agree-tos --email "admin@$SSL_DOMAIN" --redirect
+    
+    if [ $? -eq 0 ]; then
+        print_success "SSL configured successfully for $SSL_DOMAIN"
+    else
+        print_error "SSL setup failed. Please check your domain DNS settings."
+    fi
+}
+
+#############################################################################
 # Main Installation Logic
 #############################################################################
 install_app() {
@@ -294,6 +324,13 @@ EOF
     ufw allow 443/tcp
     print_success "Firewall configured"
 
+    # SSL Setup (Optional)
+    read -p "Do you want to setup SSL now? (y/N): " -n 1 -r
+    echo
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        setup_ssl
+    fi
+
     # Final Summary
     print_section "🎉 Installation Complete!"
     echo ""
@@ -312,6 +349,11 @@ EOF
 # Handle arguments
 if [ "$1" == "--fix-permissions" ]; then
     fix_permissions
+    exit 0
+fi
+
+if [ "$1" == "--setup-ssl" ]; then
+    setup_ssl
     exit 0
 fi
 
