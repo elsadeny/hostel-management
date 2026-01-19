@@ -31,19 +31,41 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            // Student validation
+            'student_id' => ['required', 'string', 'unique:' . \App\Models\Student::class],
+            'phone' => ['required', 'string'],
+            'department' => ['required', 'string'],
+            'year' => ['required', 'integer', 'min:1', 'max:6'],
+            'gender' => ['required', 'in:male,female'],
+            'study_level' => ['required', 'in:undergraduate,postgraduate,diploma'],
         ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        \Illuminate\Support\Facades\DB::transaction(function () use ($request) {
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ]);
 
-        event(new Registered($user));
+            // Create Student Profile
+            \App\Models\Student::create([
+                'user_id' => $user->id,
+                'student_id' => $request->student_id,
+                'full_name' => $request->name,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'department' => $request->department,
+                'year' => $request->year,
+                'gender' => $request->gender,
+                'study_level' => $request->study_level,
+            ]);
 
-        Auth::login($user);
+            event(new Registered($user));
+
+            Auth::login($user);
+        });
 
         return redirect(route('dashboard', absolute: false));
     }

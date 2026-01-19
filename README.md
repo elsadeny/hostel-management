@@ -45,26 +45,44 @@ A comprehensive hostel management system built with Laravel and Filament for man
 
 ## Installation
 
-### 1. Clone the Repository
+### 🚀 Quick Start (Ubuntu 24.04)
+
+The easiest way to deploy is using our automated setup script. Run this single command on your fresh Ubuntu 24.04 server:
+
+```bash
+wget -O - https://raw.githubusercontent.com/elsadeny/hostel-management/main/quick-setup.sh | sudo bash
+```
+
+This script will automatically:
+- Install all dependencies (PHP 8.2, Nginx, Node.js, SQLite)
+- Clone the repository
+- Configure the application and database
+- Setup SSL (optional) and firewall
+
+### Manual Installation
+
+If you prefer to install manually, follow these steps:
+
+#### 1. Clone the Repository
 
 ```bash
 git clone <repository-url>
 cd hostel
 ```
 
-### 2. Install PHP Dependencies
+#### 2. Install PHP Dependencies
 
 ```bash
 composer install
 ```
 
-### 3. Install Node Dependencies
+#### 3. Install Node Dependencies
 
 ```bash
 npm install
 ```
 
-### 4. Environment Setup
+#### 4. Environment Setup
 
 Copy the example environment file:
 
@@ -72,13 +90,13 @@ Copy the example environment file:
 cp .env.example .env
 ```
 
-### 5. Generate Application Key
+#### 5. Generate Application Key
 
 ```bash
 php artisan key:generate
 ```
 
-### 6. Configure Environment
+#### 6. Configure Environment
 
 Edit the `.env` file and configure your settings:
 
@@ -114,7 +132,7 @@ MAIL_FROM_ADDRESS=noreply@unilak.ac.rw
 MAIL_FROM_NAME="${APP_NAME}"
 ```
 
-### 7. Create Database
+#### 7. Create Database
 
 For SQLite (default):
 ```bash
@@ -128,13 +146,13 @@ For MySQL/PostgreSQL:
 # CREATE DATABASE hostel_db;
 ```
 
-### 8. Run Migrations
+#### 8. Run Migrations
 
 ```bash
 php artisan migrate
 ```
 
-### 9. Seed the Database
+#### 9. Seed the Database
 
 This is the **most important step** to get started. The seeder will create:
 - Default admin user
@@ -153,7 +171,7 @@ php artisan db:seed
 
 > ⚠️ **Important**: Change the default password after first login!
 
-### 10. Build Frontend Assets
+#### 10. Build Frontend Assets
 
 ```bash
 npm run build
