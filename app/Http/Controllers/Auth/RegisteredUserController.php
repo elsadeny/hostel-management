@@ -50,7 +50,7 @@ class RegisteredUserController extends Controller
             ]);
 
             // Create Student Profile
-            \App\Models\Student::create([
+            $student = \App\Models\Student::create([
                 'user_id' => $user->id,
                 'student_id' => $request->student_id,
                 'full_name' => $request->name,
@@ -63,6 +63,8 @@ class RegisteredUserController extends Controller
             ]);
 
             event(new Registered($user));
+
+            \Illuminate\Support\Facades\Mail::to($user)->send(new \App\Mail\StudentWelcomeMail($student));
 
             Auth::login($user);
         });
