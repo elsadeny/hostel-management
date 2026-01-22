@@ -25,13 +25,24 @@ class StudentResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('user_id')
-                    ->relationship('user', 'name')
-                    ->required(),
                 Forms\Components\TextInput::make('student_id')
-                    ->required(),
+                    ->required()
+                    ->unique(ignoreRecord: true),
                 Forms\Components\TextInput::make('full_name')
                     ->required(),
+                Forms\Components\TextInput::make('email')
+                    ->email()
+                    ->required()
+                    ->unique(ignoreRecord: true),
+                Forms\Components\TextInput::make('password')
+                    ->password()
+                    ->dehydrated(false)
+                    ->required(fn(string $context): bool => $context === 'create')
+                    ->confirmed(),
+                Forms\Components\TextInput::make('password_confirmation')
+                    ->password()
+                    ->dehydrated(false)
+                    ->required(fn(string $context): bool => $context === 'create'),
                 Forms\Components\TextInput::make('gender')
                     ->required(),
                 Forms\Components\TextInput::make('study_level')
@@ -44,9 +55,6 @@ class StudentResource extends Resource
                 Forms\Components\TextInput::make('phone')
                     ->tel()
                     ->required(),
-                Forms\Components\TextInput::make('email')
-                    ->email()
-                    ->required(),
             ]);
     }
 
@@ -54,9 +62,6 @@ class StudentResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user.name')
-                    ->numeric()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('student_id')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('full_name')
