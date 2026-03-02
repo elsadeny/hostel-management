@@ -136,10 +136,18 @@
                                     </svg>
                                 </div>
                                 <h3 class="text-lg font-bold text-gray-900 mb-2">No Room Allocated Yet</h3>
-                                <p class="text-gray-500 max-w-md mx-auto">
+                                <p class="text-gray-500 max-w-md mx-auto mb-6">
                                     You haven't been allocated a room for the current academic year.
-                                    Please wait for the automated allocation process or contact the hostel administration.
+                                    You can apply for a room below, or wait for the automated allocation process.
                                 </p>
+                                <a href="{{ route('student.room-application') }}"
+                                    class="inline-flex items-center justify-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm rounded-lg shadow-sm transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    Apply for a Room
+                                </a>
                             </div>
                         </div>
                     @endif

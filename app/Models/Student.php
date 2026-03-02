@@ -46,6 +46,11 @@ class Student extends Model
         return $this->hasMany(RoomChangeRequest::class);
     }
 
+    public function roomApplications(): HasMany
+    {
+        return $this->hasMany(RoomApplication::class);
+    }
+
     public function receipts(): HasMany
     {
         return $this->hasMany(Receipt::class);
