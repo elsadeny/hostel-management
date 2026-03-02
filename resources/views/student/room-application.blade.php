@@ -216,132 +216,138 @@
                 {{-- Sidebar: Student info + Application History --}}
                 <div class="space-y-6">
 
-                    {{-- Student Info Card (Premium Redesign) --}}
-                    <div class="bg-white overflow-hidden shadow-md rounded-2xl border border-gray-100 mb-6">
-                        {{-- Card Header with Gradient & Avatar --}}
-                        <div
-                            class="p-6 bg-gradient-to-br from-indigo-600 via-blue-600 to-blue-500 text-white relative overflow-hidden">
-                            <div class="absolute -right-4 -top-4 w-24 h-24 bg-white/10 rounded-full blur-2xl"></div>
-                            <div class="absolute -left-4 -bottom-4 w-20 h-20 bg-blue-400/20 rounded-full blur-xl"></div>
-
+                    {{-- Student Info Card (Premium Redesign V3) --}}
+                    <div class="bg-white overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-[2.5rem] border border-gray-100/50 mb-8 transition-all duration-500 hover:shadow-[0_20px_50px_rgba(8,_112,_184,_0.1)] group/card">
+                        {{-- Card Header with Dynamic Mesh Gradient & Glass Avatar --}}
+                        <div class="p-8 bg-slate-900 relative overflow-hidden">
+                            {{-- Mesh Gradient Orbs --}}
+                            <div class="absolute top-0 left-0 w-full h-full overflow-hidden opacity-80" style="pointer-events: none;">
+                                <div class="absolute rounded-full" style="top: -2.5rem; right: -2.5rem; width: 10rem; height: 10rem; background: #4f46e5; filter: blur(80px); opacity: 0.6;"></div>
+                                <div class="absolute rounded-full" style="bottom: -2.5rem; left: -2.5rem; width: 10rem; height: 10rem; background: #3b82f6; filter: blur(80px); opacity: 0.6;"></div>
+                                <div class="absolute rounded-full" style="top: 50%; left: 50%; transform: translate(-50%, -50%); width: 12rem; height: 12rem; background: rgba(168, 85, 247, 0.3); filter: blur(100px);"></div>
+                            </div>
+                            
                             <div class="relative flex flex-col items-center text-center">
                                 @php
                                     $names = explode(' ', $student->full_name);
                                     $initials = strtoupper(substr($names[0], 0, 1) . (isset($names[1]) ? substr($names[1], 0, 1) : ''));
                                 @endphp
-                                <div
-                                    class="w-16 h-16 bg-white/20 backdrop-blur-md rounded-full border-2 border-white/50 flex items-center justify-center text-xl font-bold mb-3 shadow-lg">
-                                    {{ $initials }}
+                                {{-- Ultra-Glass Avatar --}}
+                                <div class="w-20 h-20 bg-white/10 rounded-3xl rotate-3 flex items-center justify-center text-2xl font-black text-white border border-white/30 shadow-2xl mb-5 transform transition-transform duration-500 group-hover/card:rotate-0 group-hover/card:scale-110" style="backdrop-filter: blur(24px) saturate(2);">
+                                    <span class="-rotate-3 group-hover/card:rotate-0 transition-transform duration-500">{{ $initials }}</span>
                                 </div>
-                                <h3 class="text-lg font-bold tracking-tight">{{ $student->full_name }}</h3>
-                                <p class="text-blue-100 text-xs font-medium uppercase tracking-widest mt-1">ID:
-                                    {{ $student->student_id }}</p>
-                            </div>
-                        </div>
-
-                        {{-- Card Body with Iconic Details --}}
-                        <div class="p-5 space-y-4">
-                            {{-- Gender --}}
-                            <div class="flex items-center space-x-3 group">
-                                <div
-                                    class="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-200">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                    </svg>
-                                </div>
-                                <div class="flex-1">
-                                    <p class="text-[10px] uppercase tracking-wider text-gray-400 font-bold">Gender</p>
-                                    <p class="text-sm font-semibold text-gray-700 leading-tight">
-                                        {{ ucfirst($student->gender) }}</p>
-                                </div>
-                            </div>
-
-                            {{-- Department --}}
-                            <div class="flex items-center space-x-3 group">
-                                <div
-                                    class="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-colors duration-200">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                                    </svg>
-                                </div>
-                                <div class="flex-1">
-                                    <p class="text-[10px] uppercase tracking-wider text-gray-400 font-bold">Department
-                                    </p>
-                                    <p class="text-sm font-semibold text-gray-700 leading-tight">
-                                        {{ $student->department }}</p>
-                                </div>
-                            </div>
-
-                            {{-- Study Level --}}
-                            <div class="flex items-center space-x-3 group">
-                                <div
-                                    class="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center text-amber-600 group-hover:bg-amber-600 group-hover:text-white transition-colors duration-200">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 14l9-5-9-5-9 5 9 5z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
-                                    </svg>
-                                </div>
-                                <div class="flex-1">
-                                    <p class="text-[10px] uppercase tracking-wider text-gray-400 font-bold">Academic
-                                        Level</p>
-                                    <p class="text-sm font-semibold text-gray-700 leading-tight">
-                                        {{ ucfirst($student->study_level) }}</p>
+                                
+                                <h3 class="text-xl font-extrabold text-white tracking-tight leading-tight mb-1">{{ $student->full_name }}</h3>
+                                <div class="inline-flex items-center px-4 py-1 rounded-full bg-white/10 border border-white/20 text-[10px] font-bold text-blue-100 uppercase tracking-[0.2em]" style="backdrop-filter: blur(12px);">
+                                    ID: {{ $student->student_id }}
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    {{-- Application History --}}
-                    <div class="bg-white overflow-hidden shadow-sm rounded-xl">
-                        <div class="p-5 border-b border-gray-100">
-                            <h3 class="text-sm font-bold text-gray-700 uppercase tracking-wide">Application History
-                            </h3>
+                        {{-- Card Body: Interactive Detail Rows --}}
+                        <div class="p-6 space-y-2">
+                            {{-- Item Row: Gender --}}
+                            <div class="p-3 rounded-2xl transition-all duration-300 hover:bg-slate-50 flex items-center space-x-4 group/item">
+                                <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600 shadow-sm border border-blue-100 group-hover/item:scale-110 group-hover/item:bg-blue-600 group-hover/item:text-white transition-all duration-300">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-[9px] uppercase tracking-widest text-slate-400 font-black mb-0.5">Gender Identity</p>
+                                    <p class="text-sm font-bold text-slate-700">{{ ucfirst($student->gender) }}</p>
+                                </div>
+                            </div>
+
+                            {{-- Item Row: Department --}}
+                            <div class="p-3 rounded-2xl transition-all duration-300 hover:bg-slate-50 flex items-center space-x-4 group/item">
+                                <div class="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600 shadow-sm border border-indigo-100 group-hover/item:scale-110 group-hover/item:bg-indigo-600 group-hover/item:text-white transition-all duration-300">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                    </svg>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-[9px] uppercase tracking-widest text-slate-400 font-black mb-0.5">Faculty / Dept</p>
+                                    <p class="text-sm font-bold text-slate-700">{{ $student->department }}</p>
+                                </div>
+                            </div>
+
+                            {{-- Item Row: Academic Level --}}
+                            <div class="p-3 rounded-2xl transition-all duration-300 hover:bg-slate-50 flex items-center space-x-4 group/item">
+                                <div class="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center text-amber-600 shadow-sm border border-amber-100 group-hover/item:scale-110 group-hover/item:bg-amber-600 group-hover/item:text-white transition-all duration-300">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+                                    </svg>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-[9px] uppercase tracking-widest text-slate-400 font-black mb-0.5">Academic Level</p>
+                                    <p class="text-sm font-bold text-slate-700 group-hover/card:text-blue-600 transition-colors duration-500">{{ ucfirst($student->study_level) }}</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="p-5">
+                        
+                        {{-- Subtle Footer Accent --}}
+                        <div class="h-1.5 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 opacity-20"></div>
+                    {{-- Application History (Clean Redesign) --}}
+                    <div class="bg-white overflow-hidden shadow-[0_4px_20px_rgb(0,0,0,0.03)] rounded-3xl border border-gray-100 mt-8">
+                        <div class="p-6 border-b border-gray-50 bg-slate-50/50">
+                            <h3 class="text-sm font-black text-slate-800 uppercase tracking-widest">Application History</h3>
+                        </div>
+                        <div class="p-6">
                             @if ($applications->isNotEmpty())
-                                <div class="space-y-3">
+                                <div class="space-y-4">
                                     @foreach ($applications as $application)
-                                        <div class="border border-gray-100 rounded-lg p-3">
-                                            <div class="flex items-center justify-between mb-1">
-                                                <span class="text-xs text-gray-500">
-                                                    {{ $application->created_at->format('d M Y') }}
+                                        <div class="relative pl-6 border-l-2 border-slate-100 pb-2 last:pb-0 group/history">
+                                            <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full border-2 border-white shadow-sm transition-colors duration-300
+                                                {{ $application->status === 'pending' ? 'bg-amber-400 ring-4 ring-amber-50' : 'bg-slate-200' }}
+                                                {{ $application->status === 'approved' ? 'bg-green-400 ring-4 ring-green-50' : '' }}
+                                                {{ $application->status === 'rejected' ? 'bg-red-400 ring-4 ring-red-50' : '' }}
+                                            "></div>
+                                            
+                                            <div class="flex items-center justify-between mb-2">
+                                                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">
+                                                    {{ $application->created_at->format('d M, Y') }}
                                                 </span>
-                                                <span
-                                                    class="px-2 py-0.5 text-xs font-semibold rounded-full
-                                                                    {{ $application->status === 'pending' ? 'bg-amber-100 text-amber-800' : '' }}
-                                                                    {{ $application->status === 'approved' ? 'bg-green-100 text-green-800' : '' }}
-                                                                    {{ $application->status === 'rejected' ? 'bg-red-100 text-red-800' : '' }}
-                                                                    {{ $application->status === 'cancelled' ? 'bg-gray-100 text-gray-600' : '' }}">
-                                                    {{ ucfirst($application->status) }}
+                                                <span class="px-2.5 py-0.5 text-[9px] font-black uppercase tracking-wider rounded-lg
+                                                    {{ $application->status === 'pending' ? 'bg-amber-100 text-amber-700 border border-amber-200' : '' }}
+                                                    {{ $application->status === 'approved' ? 'bg-green-100 text-green-700 border border-green-200' : '' }}
+                                                    {{ $application->status === 'rejected' ? 'bg-red-100 text-red-700 border border-red-200' : '' }}
+                                                    {{ $application->status === 'cancelled' ? 'bg-slate-100 text-slate-600 border border-slate-200' : '' }}">
+                                                    {{ $application->status }}
                                                 </span>
                                             </div>
+
                                             @if ($application->preferred_hostel)
-                                                <p class="text-xs text-gray-600">
-                                                    Preferred: {{ $application->preferred_hostel }}</p>
-                                            @endif
-                                            @if ($application->admin_notes)
-                                                <p class="text-xs text-gray-500 mt-1 italic">
-                                                    "{{ $application->admin_notes }}"</p>
+                                                <div class="bg-slate-50 rounded-xl p-3 border border-slate-100 group-hover/history:bg-white group-hover/history:shadow-sm transition-all duration-300">
+                                                    <p class="text-xs font-bold text-slate-700 flex items-center">
+                                                        <svg class="w-3 h-3 mr-2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                                        </svg>
+                                                        {{ $application->preferred_hostel }}
+                                                    </p>
+                                                    @if ($application->admin_notes)
+                                                        <p class="text-[10px] text-slate-500 mt-2 italic border-t border-slate-100 pt-2">
+                                                            "{{ $application->admin_notes }}"
+                                                        </p>
+                                                    @endif
+                                                </div>
                                             @endif
                                         </div>
                                     @endforeach
                                 </div>
                             @else
-                                <div class="text-center py-6">
-                                    <svg class="mx-auto h-8 w-8 text-gray-300 mb-2" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                    </svg>
-                                    <p class="text-xs text-gray-400">No applications yet.</p>
+                                <div class="text-center py-10">
+                                    <div class="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-slate-100">
+                                        <svg class="w-6 h-6 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                                        </svg>
+                                    </div>
+                                    <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Inbox Empty</p>
+                                    <p class="text-[10px] text-slate-300 mt-1">No past applications found.</p>
                                 </div>
                             @endif
                         </div>
-                    </div>
 
                 </div>
             </div>
