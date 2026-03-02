@@ -216,31 +216,81 @@
                 {{-- Sidebar: Student info + Application History --}}
                 <div class="space-y-6">
 
-                    {{-- Student Info Card --}}
-                    <div class="bg-white overflow-hidden shadow-sm rounded-xl">
-                        <div class="p-5 border-b border-gray-100">
-                            <h3 class="text-sm font-bold text-gray-700 uppercase tracking-wide">Your Profile</h3>
+                    {{-- Student Info Card (Premium Redesign) --}}
+                    <div class="bg-white overflow-hidden shadow-md rounded-2xl border border-gray-100 mb-6">
+                        {{-- Card Header with Gradient & Avatar --}}
+                        <div
+                            class="p-6 bg-gradient-to-br from-indigo-600 via-blue-600 to-blue-500 text-white relative overflow-hidden">
+                            <div class="absolute -right-4 -top-4 w-24 h-24 bg-white/10 rounded-full blur-2xl"></div>
+                            <div class="absolute -left-4 -bottom-4 w-20 h-20 bg-blue-400/20 rounded-full blur-xl"></div>
+
+                            <div class="relative flex flex-col items-center text-center">
+                                @php
+                                    $names = explode(' ', $student->full_name);
+                                    $initials = strtoupper(substr($names[0], 0, 1) . (isset($names[1]) ? substr($names[1], 0, 1) : ''));
+                                @endphp
+                                <div
+                                    class="w-16 h-16 bg-white/20 backdrop-blur-md rounded-full border-2 border-white/50 flex items-center justify-center text-xl font-bold mb-3 shadow-lg">
+                                    {{ $initials }}
+                                </div>
+                                <h3 class="text-lg font-bold tracking-tight">{{ $student->full_name }}</h3>
+                                <p class="text-blue-100 text-xs font-medium uppercase tracking-widest mt-1">ID:
+                                    {{ $student->student_id }}</p>
+                            </div>
                         </div>
-                        <div class="p-5 space-y-3">
-                            <div class="flex justify-between text-sm">
-                                <span class="text-gray-500">Name</span>
-                                <span class="font-medium text-gray-900">{{ $student->full_name }}</span>
+
+                        {{-- Card Body with Iconic Details --}}
+                        <div class="p-5 space-y-4">
+                            {{-- Gender --}}
+                            <div class="flex items-center space-x-3 group">
+                                <div
+                                    class="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-200">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-[10px] uppercase tracking-wider text-gray-400 font-bold">Gender</p>
+                                    <p class="text-sm font-semibold text-gray-700 leading-tight">
+                                        {{ ucfirst($student->gender) }}</p>
+                                </div>
                             </div>
-                            <div class="flex justify-between text-sm">
-                                <span class="text-gray-500">Student ID</span>
-                                <span class="font-medium text-gray-900">{{ $student->student_id }}</span>
+
+                            {{-- Department --}}
+                            <div class="flex items-center space-x-3 group">
+                                <div
+                                    class="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-colors duration-200">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                    </svg>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-[10px] uppercase tracking-wider text-gray-400 font-bold">Department
+                                    </p>
+                                    <p class="text-sm font-semibold text-gray-700 leading-tight">
+                                        {{ $student->department }}</p>
+                                </div>
                             </div>
-                            <div class="flex justify-between text-sm">
-                                <span class="text-gray-500">Gender</span>
-                                <span class="font-medium text-gray-900">{{ ucfirst($student->gender) }}</span>
-                            </div>
-                            <div class="flex justify-between text-sm">
-                                <span class="text-gray-500">Department</span>
-                                <span class="font-medium text-gray-900 text-right">{{ $student->department }}</span>
-                            </div>
-                            <div class="flex justify-between text-sm">
-                                <span class="text-gray-500">Level</span>
-                                <span class="font-medium text-gray-900">{{ ucfirst($student->study_level) }}</span>
+
+                            {{-- Study Level --}}
+                            <div class="flex items-center space-x-3 group">
+                                <div
+                                    class="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center text-amber-600 group-hover:bg-amber-600 group-hover:text-white transition-colors duration-200">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 14l9-5-9-5-9 5 9 5z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+                                    </svg>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-[10px] uppercase tracking-wider text-gray-400 font-bold">Academic
+                                        Level</p>
+                                    <p class="text-sm font-semibold text-gray-700 leading-tight">
+                                        {{ ucfirst($student->study_level) }}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -262,10 +312,10 @@
                                                 </span>
                                                 <span
                                                     class="px-2 py-0.5 text-xs font-semibold rounded-full
-                                                            {{ $application->status === 'pending' ? 'bg-amber-100 text-amber-800' : '' }}
-                                                            {{ $application->status === 'approved' ? 'bg-green-100 text-green-800' : '' }}
-                                                            {{ $application->status === 'rejected' ? 'bg-red-100 text-red-800' : '' }}
-                                                            {{ $application->status === 'cancelled' ? 'bg-gray-100 text-gray-600' : '' }}">
+                                                                    {{ $application->status === 'pending' ? 'bg-amber-100 text-amber-800' : '' }}
+                                                                    {{ $application->status === 'approved' ? 'bg-green-100 text-green-800' : '' }}
+                                                                    {{ $application->status === 'rejected' ? 'bg-red-100 text-red-800' : '' }}
+                                                                    {{ $application->status === 'cancelled' ? 'bg-gray-100 text-gray-600' : '' }}">
                                                     {{ ucfirst($application->status) }}
                                                 </span>
                                             </div>
