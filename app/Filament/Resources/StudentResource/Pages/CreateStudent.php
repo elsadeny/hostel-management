@@ -5,9 +5,11 @@ namespace App\Filament\Resources\StudentResource\Pages;
 use App\Filament\Resources\StudentResource;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
+use Filament\Notifications\Notification;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\StudentWelcomeMail;
 
@@ -17,10 +19,21 @@ class CreateStudent extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
+        // Check if a user with this email already exists
+        if (User::where('email', $data['email'])->exists()) {
+            Notification::make()
+                ->title('Registration Failed')
+                ->body('A user account with this email address already exists.')
+                ->danger()
+                ->send();
+
+            $this->halt();
+        }
+
         $user = User::create([
-            'name' => $data['full_name'],
-            'email' => $data['email'],
-            'password' => $data['password'], // User model auto-hashes via 'hashed' cast
+            'name'     => $data['full_name'],
+            'email'    => $data['email'],
+            'password' => $data['password'],
         ]);
 
         $user->assignRole('student');
@@ -33,6 +46,13 @@ class CreateStudent extends CreateRecord
         return $data;
     }
 
+    protected function handleRecordCreation(array $data): Model
+    {
+        // Wrap the entire creation in a transaction so a failed student save
+        // automatically rolls back the user creation (no orphaned user accounts).
+        return DB::transaction(fn () => parent::handleRecordCreation($data));
+    }
+
     protected function afterCreate(): void
     {
         /** @var \App\Models\Student $student */
@@ -42,7 +62,7 @@ class CreateStudent extends CreateRecord
             try {
                 Mail::to($student->user->email)->send(new StudentWelcomeMail($student));
             } catch (\Exception $e) {
-                // Log error or notify admin, but don't fail the request
+                // Email failure is non-critical — student is still registered
             }
         }
     }
