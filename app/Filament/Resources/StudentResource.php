@@ -36,16 +36,23 @@ class StudentResource extends Resource
                     ->unique(ignoreRecord: true),
                 Forms\Components\TextInput::make('password')
                     ->password()
-                    ->dehydrated(false)
                     ->required(fn(string $context): bool => $context === 'create')
                     ->confirmed(),
                 Forms\Components\TextInput::make('password_confirmation')
                     ->password()
-                    ->dehydrated(false)
                     ->required(fn(string $context): bool => $context === 'create'),
-                Forms\Components\TextInput::make('gender')
+                Forms\Components\Select::make('gender')
+                    ->options([
+                        'male'   => 'Male',
+                        'female' => 'Female',
+                    ])
                     ->required(),
-                Forms\Components\TextInput::make('study_level')
+                Forms\Components\Select::make('study_level')
+                    ->options([
+                        'undergraduate' => 'Undergraduate',
+                        'postgraduate'  => 'Postgraduate',
+                        'diploma'       => 'Diploma',
+                    ])
                     ->required(),
                 Forms\Components\TextInput::make('department')
                     ->required(),

@@ -7,7 +7,6 @@ use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\StudentWelcomeMail;
@@ -21,7 +20,7 @@ class CreateStudent extends CreateRecord
         $user = User::create([
             'name' => $data['full_name'],
             'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'password' => $data['password'], // User model auto-hashes via 'hashed' cast
         ]);
 
         $user->assignRole('student');
